@@ -1,0 +1,52 @@
+{
+  "name": "TODO-package-name",
+  "version": "0.1.0",
+  "description": "TODO-description",
+  "license": "MIT",
+  "author": "TODO-author-name <TODO-author-email>",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TODO-github-org/TODO-repo-name.git",
+    "directory": "packages/TODO-package-name"
+  },
+  "homepage": "https://github.com/TODO-github-org/TODO-repo-name#readme",
+  "bugs": {
+    "url": "https://github.com/TODO-github-org/TODO-repo-name/issues"
+  },
+  "keywords": [],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "publint": "publint",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@vitest/coverage-v8": "^2.1.8",
+    "publint": "^0.3.2",
+    "tsdown": "0.20.0-beta.3",
+    "vitest": "^2.1.8"
+  }
+}
