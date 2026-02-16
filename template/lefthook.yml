@@ -8,8 +8,14 @@ pre-commit:
 
   commands:
     # Auto-format with prettier (~500ms)
+    # Exclude CLAUDE.md/AGENTS.md symlinks — prettier rejects symlinks as args
     format:
       glob: '*.{js,ts,tsx,json,yaml,yml,md}'
+      exclude:
+        - CLAUDE.md
+        - AGENTS.md
+        - template/CLAUDE.md
+        - template/AGENTS.md
       run: npx prettier --write --log-level warn {staged_files}
       stage_fixed: true
       priority: 1

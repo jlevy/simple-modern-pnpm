@@ -2,9 +2,10 @@
 
 A minimal, modern TypeScript project template using pnpm workspaces.
 
-This template provides a production-ready monorepo structure with best practices for TypeScript
-development. Use [Copier](https://copier.readthedocs.io/) to create new projects from this
-template and pull upstream improvements over time.
+This template provides a production-ready monorepo structure with best practices for
+TypeScript development.
+Use [Copier](https://copier.readthedocs.io/) to create new projects from this template
+and pull upstream improvements over time.
 
 ## Features
 
@@ -22,17 +23,13 @@ template and pull upstream improvements over time.
 
 This template uses [Copier](https://copier.readthedocs.io/) for project generation and
 ongoing upstream updates.
-
-### Install Copier
-
-```bash
-pip install copier   # or: pipx install copier, or: uvx copier
-```
+We recommend installing Copier via [uv](https://docs.astral.sh/uv/) (shown below), but
+any installation method works.
 
 ### Create a new project
 
 ```bash
-copier copy gh:jlevy/simple-modern-pnpm my-project
+uvx copier copy gh:jlevy/simple-modern-pnpm my-project
 cd my-project
 pnpm install
 pnpm build && pnpm test
@@ -55,7 +52,7 @@ Copier will prompt for these values:
 
 ```bash
 cd existing-repo
-copier copy gh:jlevy/simple-modern-pnpm .
+uvx copier copy gh:jlevy/simple-modern-pnpm .
 
 # Review what changed
 git diff
@@ -71,117 +68,52 @@ git add . && git commit -m "Add simple-modern-pnpm template structure"
 After creating a project from this template, you can pull in future improvements:
 
 ```bash
-copier update
+uvx copier update
 pnpm install && pnpm build && pnpm test
 git add . && git commit -m "Update from simple-modern-pnpm template"
 ```
 
 Copier does a three-way merge: it regenerates the old template version, diffs your local
-changes, and applies the new template on top. Conflicts are marked inline or as `.rej`
-files for you to resolve.
+changes, and applies the new template on top.
+Conflicts are marked inline or as `.rej` files for you to resolve.
 
-## Development
+## Documentation
 
-### Scripts
+| Document                                   | Description                                |
+| ------------------------------------------ | ------------------------------------------ |
+| [docs/development.md](docs/development.md) | Development setup, scripts, and config     |
+| [docs/publishing.md](docs/publishing.md)   | Versioning, changesets, and npm publishing |
 
-| Command              | Description              |
-| -------------------- | ------------------------ |
-| `pnpm build`         | Build all packages       |
-| `pnpm test`          | Run tests                |
-| `pnpm test:coverage` | Run tests with coverage  |
-| `pnpm lint`          | Lint and auto-fix        |
-| `pnpm lint:check`    | Lint without fixing (CI) |
-| `pnpm format`        | Format code              |
-| `pnpm format:check`  | Check formatting (CI)    |
-| `pnpm typecheck`     | Type check all packages  |
-| `pnpm ci`            | Run full CI pipeline     |
-
-### Dependency Management
-
-| Command              | Description                        |
-| -------------------- | ---------------------------------- |
-| `pnpm upgrade:check` | Check for available updates        |
-| `pnpm upgrade`       | Safe upgrade (minor + patch)       |
-| `pnpm upgrade:major` | Interactive major version upgrades |
-
-### Versioning & Release
-
-| Command                 | Description                         |
-| ----------------------- | ----------------------------------- |
-| `pnpm changeset`        | Create a changeset for your changes |
-| `pnpm version-packages` | Apply changesets and bump versions  |
-| `pnpm release`          | Build, validate, and publish to npm |
+`CLAUDE.md` and `AGENTS.md` symlink to `docs/development.md` so that AI coding agents
+automatically have development context.
 
 ## Project Structure
 
 ```
 .
-├── .changeset/              # Changesets configuration
-├── .github/workflows/       # CI/CD workflows
+├── docs/
+│   ├── development.md       # Development guide (= CLAUDE.md, AGENTS.md)
+│   └── publishing.md        # Publishing and release guide
 ├── packages/
-│   └── placeholder-package/          # Your package
+│   └── <package>/           # Your package(s)
 │       ├── src/             # Source code
 │       ├── tests/           # Tests
 │       ├── package.json
 │       ├── tsconfig.json
 │       ├── tsdown.config.ts
 │       └── vitest.config.ts
+├── .changeset/              # Changesets configuration
+├── .github/workflows/       # CI/CD (test + release)
+├── CLAUDE.md -> docs/development.md
+├── AGENTS.md -> docs/development.md
 ├── eslint.config.js         # ESLint flat config
 ├── .prettierrc              # Prettier config
 ├── lefthook.yml             # Git hooks
 ├── package.json             # Root workspace config
-├── pnpm-workspace.yaml      # Workspace definition
-└── tsconfig.base.json       # Shared TypeScript config
+├── pnpm-workspace.yaml      # Workspace packages
+├── tsconfig.json            # Root TypeScript config
+└── tsconfig.base.json       # Shared TypeScript settings
 ```
-
-## Adding More Packages
-
-1. Create a new directory under `packages/`:
-
-   ```bash
-   mkdir -p packages/new-package/src packages/new-package/tests
-   ```
-
-2. Copy and adapt configuration files from the existing package.
-
-3. Add the package reference to root `tsconfig.json`:
-
-   ```json
-   {
-     "references": [
-       { "path": "./packages/placeholder-package" },
-       { "path": "./packages/new-package" }
-     ]
-   }
-   ```
-
-## Configuration Details
-
-### TypeScript
-
-- `target: ES2024` - Modern JavaScript features
-- `moduleResolution: "Bundler"` - Optimized for tsdown
-- `noUncheckedIndexedAccess: true` - Safer array/object access
-- `verbatimModuleSyntax: true` - Enforces explicit type imports
-
-### ESLint
-
-- Type-aware rules via `typescript-eslint`
-- Promise safety rules (no floating promises, no misused promises)
-- Consistent type imports (`import type`)
-- Relaxed rules for test files
-
-### Git Hooks (Lefthook)
-
-- **Pre-commit**: Format, lint, and typecheck staged files
-- **Pre-push**: Run full test suite
-
-## Publishing
-
-1. Create an npm account and generate an access token
-2. Add `NPM_TOKEN` secret to your GitHub repository
-3. Create a git tag: `git tag v0.1.0 && git push --tags`
-4. The release workflow will automatically publish to npm
 
 ## License
 

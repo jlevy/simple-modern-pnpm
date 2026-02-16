@@ -12,6 +12,7 @@ Usage:
 The output is written to template/ and should be committed to git.
 """
 
+import os
 import re
 import shutil
 from pathlib import Path
@@ -39,8 +40,6 @@ EXCLUDED_ROOT_PATHS = {
     "copier.yml",
     "README.md",
     "LICENSE",
-    "CLAUDE.md",
-    "AGENTS.md",
     ".claude",
     ".tbd",
     ".tbd-sync",
@@ -115,8 +114,19 @@ def compile_template() -> None:
         shutil.rmtree(TEMPLATE_DIR)
     TEMPLATE_DIR.mkdir(parents=True)
 
+    symlinks: list[tuple[Path, str]] = []
+
     # Walk the repo root
     for source_path in sorted(REPO_ROOT.rglob("*")):
+        # Preserve relative symlinks as symlinks in the template
+        if source_path.is_symlink():
+            if is_excluded(source_path):
+                continue
+            target = os.readlink(source_path)
+            rel_path = source_path.relative_to(REPO_ROOT)
+            symlinks.append((rel_path, target))
+            continue
+
         if not source_path.is_file():
             continue
 
@@ -160,6 +170,12 @@ def compile_template() -> None:
 
         dest_path.write_text(new_content, encoding="utf-8")
 
+    # Create symlinks in the template output
+    for rel_path, target in symlinks:
+        dest_path = TEMPLATE_DIR / rel_path
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        os.symlink(target, dest_path)
+
     # Create special Copier files
 
     # 1. Copier answers file (for copier update support)
@@ -179,11 +195,17 @@ def compile_template() -> None:
         "\n"
         "## Development\n"
         "\n"
+        "See [docs/development.md](docs/development.md) for full setup and workflow details.\n"
+        "\n"
         "```bash\n"
         "pnpm install\n"
         "pnpm build\n"
         "pnpm test\n"
         "```\n"
+        "\n"
+        "## Publishing\n"
+        "\n"
+        "See [docs/publishing.md](docs/publishing.md).\n"
         "\n"
         "## License\n"
         "\n"
@@ -204,8 +226,9 @@ def compile_template() -> None:
     # Summary
     file_count = sum(1 for _ in TEMPLATE_DIR.rglob("*") if _.is_file())
     jinja_count = sum(1 for _ in TEMPLATE_DIR.rglob("*.jinja") if _.is_file())
+    symlink_count = len(symlinks)
     print(f"Compiled template to {TEMPLATE_DIR.relative_to(REPO_ROOT)}/")
-    print(f"  {file_count} files total, {jinja_count} with .jinja suffix")
+    print(f"  {file_count} files total, {jinja_count} with .jinja suffix, {symlink_count} symlinks")
 
 
 if __name__ == "__main__":
