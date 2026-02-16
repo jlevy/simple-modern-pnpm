@@ -1,5 +1,5 @@
 /**
- * my-package
+ * placeholder-package
  *
  * A modern TypeScript package
  */

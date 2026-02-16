@@ -23,13 +23,13 @@ variables in the compiled template:
 
 | Value                         | Becomes                     |
 | ----------------------------- | --------------------------- |
-| `my-workspace`                | `{{ workspace_name }}`      |
-| `my-package`                  | `{{ package_name }}`        |
+| `placeholder-workspace`       | `{{ workspace_name }}`      |
+| `placeholder-package`         | `{{ package_name }}`        |
 | `A modern TypeScript package` | `{{ package_description }}` |
 | `Package Author`              | `{{ author_name }}`         |
 | `author@example.com`          | `{{ author_email }}`        |
-| `my-org`                      | `{{ github_org }}`          |
-| `my-repo`                     | `{{ repo_name }}`           |
+| `placeholder-org`             | `{{ github_org }}`          |
+| `placeholder-repo`            | `{{ repo_name }}`           |
 
 ## Stack
 

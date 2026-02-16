@@ -1,5 +1,5 @@
 {
-  "name": "my-package",
+  "name": "placeholder-package",
   "version": "0.1.0",
   "description": "A modern TypeScript package",
   "license": "MIT",
@@ -23,12 +23,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/my-org/my-repo.git",
-    "directory": "packages/my-package"
+    "url": "git+https://github.com/placeholder-org/placeholder-repo.git",
+    "directory": "packages/placeholder-package"
   },
-  "homepage": "https://github.com/my-org/my-repo#readme",
+  "homepage": "https://github.com/placeholder-org/placeholder-repo#readme",
   "bugs": {
-    "url": "https://github.com/my-org/my-repo/issues"
+    "url": "https://github.com/placeholder-org/placeholder-repo/issues"
   },
   "keywords": [],
   "scripts": {

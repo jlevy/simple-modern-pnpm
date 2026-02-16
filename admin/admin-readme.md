@@ -18,10 +18,10 @@ The repo root is a fully functional project that CI tests directly. The compile
 script mechanically transforms it into a Copier template:
 
 1. Walks all files at the repo root (excluding `admin/`, `.claude/`, `.tbd/`, etc.)
-2. Replaces working placeholder values (e.g., `my-package`) with Jinja variables
+2. Replaces working placeholder values (e.g., `placeholder-package`) with Jinja variables
    (e.g., `{{ package_name }}`)
 3. Adds `.jinja` suffix to any file whose content was modified
-4. Renames `packages/my-package/` to `packages/{{ package_name }}/`
+4. Renames `packages/placeholder-package/` to `packages/{{ package_name }}/`
 5. Creates special files: starter README, placeholder LICENSE, Copier answers file
 
 ## Workflow

@@ -8,12 +8,12 @@ _templates_suffix: .jinja
 workspace_name:
   type: str
   help: Name for the pnpm workspace (root package.json name)
-  default: my-workspace
+  default: placeholder-workspace
 
 package_name:
   type: str
   help: Name for the starter package (npm package name)
-  default: my-package
+  default: placeholder-package
 
 package_description:
   type: str
@@ -33,9 +33,9 @@ author_email:
 github_org:
   type: str
   help: GitHub organization or username
-  default: my-org
+  default: placeholder-org
 
 repo_name:
   type: str
   help: GitHub repository name
-  default: my-repo
+  default: placeholder-repo

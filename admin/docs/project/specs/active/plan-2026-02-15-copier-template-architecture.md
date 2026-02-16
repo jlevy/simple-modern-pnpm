@@ -81,13 +81,13 @@ The compile script replaces them with Jinja variables:
 
 | Working Value                 | Copier Variable             | Used In                                      |
 | ----------------------------- | --------------------------- | -------------------------------------------- |
-| `my-workspace`                | `{{ workspace_name }}`      | root package.json `name`                     |
-| `my-package`                  | `{{ package_name }}`        | package dir, package.json, tsconfig refs, CI |
+| `placeholder-workspace`       | `{{ workspace_name }}`      | root package.json `name`                     |
+| `placeholder-package`         | `{{ package_name }}`        | package dir, package.json, tsconfig refs, CI |
 | `A modern TypeScript package` | `{{ package_description }}` | package.json description, src/index.ts       |
 | `Package Author`              | `{{ author_name }}`         | package.json author                          |
 | `author@example.com`          | `{{ author_email }}`        | package.json author                          |
-| `my-org`                      | `{{ github_org }}`          | package.json repository URLs                 |
-| `my-repo`                     | `{{ repo_name }}`           | package.json repository URLs                 |
+| `placeholder-org`             | `{{ github_org }}`          | package.json repository URLs                 |
+| `placeholder-repo`            | `{{ repo_name }}`           | package.json repository URLs                 |
 
 ### File Boundary: Template vs Template-Meta
 
@@ -135,7 +135,7 @@ Python script (stdlib only, no dependencies) that:
 2. Walks the repo root, copying all files except excluded paths.
 3. Replaces placeholder strings with Jinja `{{ variable }}` syntax in file contents.
 4. Adds `.jinja` suffix to any file whose content was modified.
-5. Renames `packages/my-package/` to `packages/{{ package_name }}/` in the output.
+5. Renames `packages/placeholder-package/` to `packages/{{ package_name }}/` in the output.
 6. Creates special Copier files:
    - `{{ _copier_conf.answers_file }}.jinja` (for `copier update` support)
    - `README.md.jinja` (starter README for generated projects)
@@ -183,15 +183,15 @@ simple-modern-pnpm/
     ci.yml                       # Working CI + template-sync validation
     release.yml                  # Working release workflow
   packages/
-    my-package/                  # Fully functional package
+    placeholder-package/                  # Fully functional package
       src/index.ts
       tests/index.test.ts
-      package.json               # name: "my-package"
+      package.json               # name: "placeholder-package"
       tsconfig.json
       tsdown.config.ts
       vitest.config.ts
-  package.json                   # name: "my-workspace"
-  tsconfig.json                  # refs: "./packages/my-package"
+  package.json                   # name: "placeholder-workspace"
+  tsconfig.json                  # refs: "./packages/placeholder-package"
   tsconfig.base.json
   eslint.config.js
   .prettierrc
@@ -218,7 +218,7 @@ cd my-project
 pnpm install
 pnpm build && pnpm test
 git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
-gh repo create my-org/my-project --source=. --push
+gh repo create placeholder-org/my-project --source=. --push
 ```
 
 #### Workflow 2: Copy into an existing repo
@@ -454,7 +454,7 @@ After completing the audit, the key decisions to make are:
 
 - [ ] **`smp-bw6h`** — Replace all `TODO-*` placeholders with fixed working values
       (see mapping table)
-- [ ] **`smp-bw6h`** — Rename `packages/TODO-package-name/` to `packages/my-package/`
+- [ ] **`smp-bw6h`** — Rename `packages/TODO-package-name/` to `packages/placeholder-package/`
 - [ ] **`smp-bw6h`** — Run `pnpm install` to regenerate lockfile, verify
       `pnpm build && pnpm test` pass
 - [ ] **`smp-41bx`** — Create `copier.yml` with variable definitions and

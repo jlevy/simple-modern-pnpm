@@ -36,7 +36,7 @@ pnpm build && pnpm test
 
 # Initialize git and push
 git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
-gh repo create my-org/my-project --source=. --push
+gh repo create placeholder-org/my-project --source=. --push
 ```
 
 ### Pull upstream template updates
@@ -86,7 +86,7 @@ git add . && git commit -m "Update from simple-modern-pnpm template"
 ├── .changeset/              # Changesets configuration
 ├── .github/workflows/       # CI/CD workflows
 ├── packages/
-│   └── my-package/          # Your package
+│   └── placeholder-package/          # Your package
 │       ├── src/             # Source code
 │       ├── tests/           # Tests
 │       ├── package.json
@@ -115,7 +115,10 @@ git add . && git commit -m "Update from simple-modern-pnpm template"
 
    ```json
    {
-     "references": [{ "path": "./packages/my-package" }, { "path": "./packages/new-package" }]
+     "references": [
+       { "path": "./packages/placeholder-package" },
+       { "path": "./packages/new-package" }
+     ]
    }
    ```
 

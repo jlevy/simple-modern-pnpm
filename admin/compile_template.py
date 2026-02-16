@@ -26,10 +26,10 @@ REPLACEMENTS = [
     ("A modern TypeScript package", "{{ package_description }}"),
     ("author@example.com", "{{ author_email }}"),
     ("Package Author", "{{ author_name }}"),
-    ("my-workspace", "{{ workspace_name }}"),
-    ("my-package", "{{ package_name }}"),
-    ("my-repo", "{{ repo_name }}"),
-    ("my-org", "{{ github_org }}"),
+    ("placeholder-workspace", "{{ workspace_name }}"),
+    ("placeholder-package", "{{ package_name }}"),
+    ("placeholder-repo", "{{ repo_name }}"),
+    ("placeholder-org", "{{ github_org }}"),
 ]
 
 # Root-level paths to exclude from the template
@@ -125,10 +125,10 @@ def compile_template() -> None:
         # Compute relative path from repo root
         rel_path = source_path.relative_to(REPO_ROOT)
 
-        # Apply directory renaming: packages/my-package -> packages/{{ package_name }}
+        # Apply directory renaming: packages/placeholder-package -> packages/{{ package_name }}
         parts = list(rel_path.parts)
         for i, part in enumerate(parts):
-            if part == "my-package" and i > 0 and parts[i - 1] == "packages":
+            if part == "placeholder-package" and i > 0 and parts[i - 1] == "packages":
                 parts[i] = "{{ package_name }}"
         rel_path = Path(*parts)
 
