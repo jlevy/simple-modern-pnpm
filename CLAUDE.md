@@ -13,8 +13,8 @@ This is a pnpm monorepo template project (simple-modern-pnpm).
 - The repo root is a fully functional project (CI passes, builds work, tests pass)
 - A compile script (`admin/compile_template.py`) generates a Copier template from
   the working project by replacing fixed values with Jinja variables
-- The compiled template lives in `admin/template/` and is committed to git
-- `copier.yml` at root configures Copier with `_subdirectory: admin/template`
+- The compiled template lives in `template/` and is committed to git
+- `copier.yml` at root configures Copier with `_subdirectory: template`
 
 ## Placeholder Values (Working Project)
 

@@ -5,9 +5,8 @@ included in the generated template output.
 
 ## Contents
 
-- `compile_template.py` — Generates `admin/template/` from the working project
+- `compile_template.py` — Generates `template/` from the working project
   by replacing fixed placeholder values with Jinja `{{ variable }}` syntax.
-- `template/` — The compiled Copier template (generated, committed to git).
 - `admin-readme.md` — This file.
 - `updating.md` — Guide for maintaining the template.
 - `docs/` — Project specs and planning documents.
@@ -28,8 +27,8 @@ script mechanically transforms it into a Copier template:
 
 ```bash
 # After making changes to the working project:
-pnpm compile-template    # Regenerate admin/template/
+pnpm compile-template    # Regenerate template/
 pnpm build && pnpm test  # Verify the working project still passes
 
-# CI validates that admin/template/ is in sync with the compile script output
+# CI validates that template/ is in sync with the compile script output
 ```

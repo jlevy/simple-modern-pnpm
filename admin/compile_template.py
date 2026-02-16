@@ -9,7 +9,7 @@ the Copier template directory by replacing those names with Jinja variables.
 Usage:
     python admin/compile_template.py
 
-The output is written to admin/template/ and should be committed to git.
+The output is written to template/ and should be committed to git.
 """
 
 import re
@@ -18,7 +18,7 @@ from pathlib import Path
 
 # Repository root (parent of admin/)
 REPO_ROOT = Path(__file__).resolve().parent.parent
-TEMPLATE_DIR = REPO_ROOT / "admin" / "template"
+TEMPLATE_DIR = REPO_ROOT / "template"
 
 # Placeholder mappings: working value -> Jinja variable
 # Ordered longest-first to prevent partial matches
@@ -35,6 +35,7 @@ REPLACEMENTS = [
 # Root-level paths to exclude from the template
 EXCLUDED_ROOT_PATHS = {
     "admin",
+    "template",
     "copier.yml",
     "README.md",
     "LICENSE",

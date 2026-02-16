@@ -44,7 +44,7 @@ export default [
       '**/.pnpm-store/**',
       '**/coverage/**',
       'eslint.config.*',
-      'admin/template/**',
+      'template/**',
       'attic/**',
     ],
   },

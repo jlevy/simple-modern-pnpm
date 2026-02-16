@@ -1,7 +1,7 @@
 # Copier template configuration
 # See: https://copier.readthedocs.io/
 
-_subdirectory: admin/template
+_subdirectory: template
 _templates_suffix: .jinja
 
 # Template variables

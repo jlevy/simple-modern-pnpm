@@ -58,8 +58,8 @@ jobs:
 
       - name: Verify template is in sync
         run: |
-          if ! git diff --exit-code admin/template/; then
-            echo "::error::admin/template/ is out of sync. Run 'pnpm compile-template' and commit the changes."
+          if ! git diff --exit-code template/; then
+            echo "::error::template/ is out of sync. Run 'pnpm compile-template' and commit the changes."
             exit 1
           fi
   # ADMIN-ONLY-END

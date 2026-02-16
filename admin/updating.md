@@ -6,7 +6,7 @@
 2. Apply updates with `pnpm upgrade` (minor/patch) or `pnpm upgrade:major` (major).
 3. Run `pnpm build && pnpm test` to verify.
 4. Run `pnpm compile-template` to regenerate the template.
-5. Commit both the working project changes and the regenerated `admin/template/`.
+5. Commit both the working project changes and the regenerated `template/`.
 
 ## Adding New Configuration Files
 
@@ -37,7 +37,7 @@ To exclude a new file or directory from the template output:
 ```bash
 # Compile and check
 pnpm compile-template
-git diff admin/template/
+git diff template/
 
 # Test with Copier (requires copier installed)
 copier copy --defaults --trust . /tmp/test-output
@@ -50,6 +50,6 @@ pnpm install && pnpm build && pnpm test
 CI runs a `template-sync` check that:
 
 1. Runs the compile script
-2. Verifies `admin/template/` matches what's committed (`git diff --exit-code`)
+2. Verifies `template/` matches what's committed (`git diff --exit-code`)
 
 If this check fails, run `pnpm compile-template` and commit the changes.
