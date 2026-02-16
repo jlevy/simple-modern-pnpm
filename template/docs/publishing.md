@@ -81,8 +81,8 @@ This runs `pnpm build && pnpm publint && changeset publish`.
 
 ## Quick Reference
 
-| Command | Description |
-| --- | --- |
-| `pnpm changeset` | Create a changeset for your changes |
-| `pnpm version-packages` | Apply changesets, bump versions |
-| `pnpm release` | Build, validate, and publish (manually) |
+| Command                 | Description                             |
+| ----------------------- | --------------------------------------- |
+| `pnpm changeset`        | Create a changeset for your changes     |
+| `pnpm version-packages` | Apply changesets, bump versions         |
+| `pnpm release`          | Build, validate, and publish (manually) |
