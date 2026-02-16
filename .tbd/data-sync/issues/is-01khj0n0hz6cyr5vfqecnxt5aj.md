@@ -1,4 +1,6 @@
 ---
+close_reason: "Phase 0 backfill complete: all config areas audited and modernized"
+closed_at: 2026-02-16T02:23:50.532Z
 created_at: 2026-02-16T01:22:16.253Z
 dependencies:
   - target: is-01khj0n5rhkm8a64dxw1sdmy1p
@@ -31,9 +33,9 @@ id: is-01khj0n0hz6cyr5vfqecnxt5aj
 kind: task
 labels: []
 priority: 1
-status: open
+status: closed
 title: Backfill project setup improvements from tbd repo
 type: is
-updated_at: 2026-02-16T01:22:44.148Z
-version: 14
+updated_at: 2026-02-16T02:23:50.533Z
+version: 15
 ---
