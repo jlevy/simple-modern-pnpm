@@ -18,34 +18,67 @@ template and pull upstream improvements over time.
 - **Changesets** - Automated versioning and changelog generation
 - **GitHub Actions** - CI/CD for testing and npm publishing
 
-## Quick Start
+## Using This Template
 
-### Create a new project with Copier
+This template uses [Copier](https://copier.readthedocs.io/) for project generation and
+ongoing upstream updates.
+
+### Install Copier
 
 ```bash
-# Install Copier (requires Python 3.9+)
-pip install copier   # or: pipx install copier
+pip install copier   # or: pipx install copier, or: uvx copier
+```
 
-# Create a new project (interactive prompts)
+### Create a new project
+
+```bash
 copier copy gh:jlevy/simple-modern-pnpm my-project
 cd my-project
-
-# Install dependencies and verify
 pnpm install
 pnpm build && pnpm test
-
-# Initialize git and push
 git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
-gh repo create placeholder-org/my-project --source=. --push
+```
+
+Copier will prompt for these values:
+
+| Variable              | Description              | Example            |
+| --------------------- | ------------------------ | ------------------ |
+| `workspace_name`      | Root package.json `name` | `my-workspace`     |
+| `package_name`        | Starter package name     | `my-utils`         |
+| `package_description` | One-line description     | `Shared utilities` |
+| `author_name`         | Package author           | `Jane Doe`         |
+| `author_email`        | Author email             | `jane@example.com` |
+| `github_org`          | GitHub org or username   | `my-org`           |
+| `repo_name`           | GitHub repository name   | `my-project`       |
+
+### Copy into an existing repo
+
+```bash
+cd existing-repo
+copier copy gh:jlevy/simple-modern-pnpm .
+
+# Review what changed
+git diff
+
+# Merge your existing code: restore your source files, merge configs
+pnpm install
+pnpm build && pnpm test
+git add . && git commit -m "Add simple-modern-pnpm template structure"
 ```
 
 ### Pull upstream template updates
+
+After creating a project from this template, you can pull in future improvements:
 
 ```bash
 copier update
 pnpm install && pnpm build && pnpm test
 git add . && git commit -m "Update from simple-modern-pnpm template"
 ```
+
+Copier does a three-way merge: it regenerates the old template version, diffs your local
+changes, and applies the new template on top. Conflicts are marked inline or as `.rej`
+files for you to resolve.
 
 ## Development
 
