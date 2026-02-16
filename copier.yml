@@ -1,0 +1,41 @@
+# Copier template configuration
+# See: https://copier.readthedocs.io/
+
+_subdirectory: admin/template
+_templates_suffix: .jinja
+
+# Template variables
+workspace_name:
+  type: str
+  help: Name for the pnpm workspace (root package.json name)
+  default: my-workspace
+
+package_name:
+  type: str
+  help: Name for the starter package (npm package name)
+  default: my-package
+
+package_description:
+  type: str
+  help: Short description of the package
+  default: A modern TypeScript package
+
+author_name:
+  type: str
+  help: Package author name
+  default: Package Author
+
+author_email:
+  type: str
+  help: Package author email
+  default: author@example.com
+
+github_org:
+  type: str
+  help: GitHub organization or username
+  default: my-org
+
+repo_name:
+  type: str
+  help: GitHub repository name
+  default: my-repo

@@ -1,7 +1,7 @@
 /**
- * TODO-package-name
+ * my-package
  *
- * TODO-description
+ * A modern TypeScript package
  */
 
 /**

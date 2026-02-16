@@ -3,67 +3,49 @@
 A minimal, modern TypeScript project template using pnpm workspaces.
 
 This template provides a production-ready monorepo structure with best practices for TypeScript
-development, following patterns documented in modern TypeScript ecosystem research.
+development. Use [Copier](https://copier.readthedocs.io/) to create new projects from this
+template and pull upstream improvements over time.
 
 ## Features
 
 - **pnpm workspaces** - Efficient monorepo dependency management
-- **TypeScript 5.7+** - Modern TypeScript with strict configuration
+- **TypeScript 5.9+** - Modern TypeScript with strict configuration
 - **tsdown** - Fast ESM builds with TypeScript declarations
-- **Vitest** - Fast unit testing with coverage
+- **Vitest 4** - Fast unit testing with coverage
 - **ESLint 9** - Flat config with type-aware rules
 - **Prettier** - Consistent code formatting
-- **Lefthook** - Fast git hooks (format, lint, typecheck on commit; test on push)
+- **Lefthook 2** - Fast git hooks (format, lint, typecheck on commit; test on push)
 - **Changesets** - Automated versioning and changelog generation
 - **GitHub Actions** - CI/CD for testing and npm publishing
 
 ## Quick Start
 
-### Using This Template
+### Create a new project with Copier
 
-1. Click "Use this template" on GitHub, or clone and remove git history:
+```bash
+# Install Copier (requires Python 3.9+)
+pip install copier   # or: pipx install copier
 
-   ```bash
-   git clone https://github.com/TODO-github-org/simple-modern-pnpm.git my-project
-   cd my-project
-   rm -rf .git
-   git init
-   ```
+# Create a new project (interactive prompts)
+copier copy gh:jlevy/simple-modern-pnpm my-project
+cd my-project
 
-2. Find and replace all `TODO-*` placeholders:
+# Install dependencies and verify
+pnpm install
+pnpm build && pnpm test
 
-   | Placeholder           | Replace with        | Example                |
-   | --------------------- | ------------------- | ---------------------- |
-   | `TODO-workspace-name` | Your workspace name | `my-project-workspace` |
-   | `TODO-package-name`   | Your package name   | `my-package`           |
-   | `TODO-description`    | Package description | `A useful library`     |
-   | `TODO-author-name`    | Your name           | `Jane Doe`             |
-   | `TODO-author-email`   | Your email          | `jane@example.com`     |
-   | `TODO-github-org`     | GitHub org/username | `janedoe`              |
-   | `TODO-repo-name`      | Repository name     | `my-project`           |
+# Initialize git and push
+git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
+gh repo create my-org/my-project --source=. --push
+```
 
-3. Rename the package directory:
+### Pull upstream template updates
 
-   ```bash
-   mv packages/TODO-package-name packages/your-package-name
-   ```
-
-4. Update `tsconfig.json` to reference your package:
-
-   ```json
-   {
-     "files": [],
-     "references": [{ "path": "./packages/your-package-name" }]
-   }
-   ```
-
-5. Install dependencies and verify everything works:
-
-   ```bash
-   pnpm install
-   pnpm build
-   pnpm test
-   ```
+```bash
+copier update
+pnpm install && pnpm build && pnpm test
+git add . && git commit -m "Update from simple-modern-pnpm template"
+```
 
 ## Development
 
@@ -79,6 +61,7 @@ development, following patterns documented in modern TypeScript ecosystem resear
 | `pnpm format`        | Format code              |
 | `pnpm format:check`  | Check formatting (CI)    |
 | `pnpm typecheck`     | Type check all packages  |
+| `pnpm ci`            | Run full CI pipeline     |
 
 ### Dependency Management
 
@@ -103,14 +86,14 @@ development, following patterns documented in modern TypeScript ecosystem resear
 ├── .changeset/              # Changesets configuration
 ├── .github/workflows/       # CI/CD workflows
 ├── packages/
-│   └── TODO-package-name/   # Your package
+│   └── my-package/          # Your package
 │       ├── src/             # Source code
 │       ├── tests/           # Tests
 │       ├── package.json
 │       ├── tsconfig.json
 │       ├── tsdown.config.ts
 │       └── vitest.config.ts
-├── .eslintconfig.js         # ESLint flat config
+├── eslint.config.js         # ESLint flat config
 ├── .prettierrc              # Prettier config
 ├── lefthook.yml             # Git hooks
 ├── package.json             # Root workspace config
@@ -132,7 +115,7 @@ development, following patterns documented in modern TypeScript ecosystem resear
 
    ```json
    {
-     "references": [{ "path": "./packages/existing-package" }, { "path": "./packages/new-package" }]
+     "references": [{ "path": "./packages/my-package" }, { "path": "./packages/new-package" }]
    }
    ```
 
@@ -140,6 +123,7 @@ development, following patterns documented in modern TypeScript ecosystem resear
 
 ### TypeScript
 
+- `target: ES2024` - Modern JavaScript features
 - `moduleResolution: "Bundler"` - Optimized for tsdown
 - `noUncheckedIndexedAccess: true` - Safer array/object access
 - `verbatimModuleSyntax: true` - Enforces explicit type imports
