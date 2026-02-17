@@ -37,15 +37,15 @@ git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
 
 Copier will prompt for these values:
 
-| Variable              | Description              | Example            |
-| --------------------- | ------------------------ | ------------------ |
-| `workspace_name`      | Root package.json `name` | `my-workspace`     |
-| `package_name`        | Starter package name     | `my-utils`         |
-| `package_description` | One-line description     | `Shared utilities` |
-| `author_name`         | Package author           | `Jane Doe`         |
-| `author_email`        | Author email             | `jane@example.com` |
-| `github_org`          | GitHub org or username   | `my-org`           |
-| `repo_name`           | GitHub repository name   | `my-project`       |
+| Variable | Description | Example |
+| --- | --- | --- |
+| `workspace_name` | Root package.json `name` | `my-workspace` |
+| `package_name` | Starter package name | `my-utils` |
+| `package_description` | One-line description | `Shared utilities` |
+| `author_name` | Package author | `Jane Doe` |
+| `author_email` | Author email | `jane@example.com` |
+| `github_org` | GitHub org or username | `my-org` |
+| `repo_name` | GitHub repository name | `my-project` |
 
 ### Copy into an existing repo
 
@@ -78,10 +78,10 @@ Conflicts are marked inline or as `.rej` files for you to resolve.
 
 ## Documentation
 
-| Document                                   | Description                            |
-| ------------------------------------------ | -------------------------------------- |
+| Document | Description |
+| --- | --- |
 | [docs/development.md](docs/development.md) | Development setup, scripts, and config |
-| [docs/publishing.md](docs/publishing.md)   | Versioning and npm publishing          |
+| [docs/publishing.md](docs/publishing.md) | Versioning and npm publishing |
 
 `CLAUDE.md` and `AGENTS.md` symlink to `docs/development.md` so that AI coding agents
 automatically have development context.

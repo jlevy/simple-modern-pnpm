@@ -1,3 +1,3 @@
-## What's Changed
+## What’s Changed
 
 Initial release.

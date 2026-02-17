@@ -102,7 +102,7 @@ Release with the contents of `release-notes.md`.
 ## Writing Release Notes
 
 The `release-notes.md` file at the repo root is the source of truth for release notes.
-It is written _before_ tagging and committed with the release.
+It is written *before* tagging and committed with the release.
 The CI workflow reads it directly via `body_path: release-notes.md`.
 
 ### Step 1: Review Changes
@@ -111,8 +111,8 @@ The CI workflow reads it directly via `body_path: release-notes.md`.
 pnpm release:changes
 ```
 
-This outputs all commits since the last release tag as a flat list. Use this as
-input for writing the release notes summary.
+This outputs all commits since the last release tag as a flat list.
+Use this as input for writing the release notes summary.
 
 ### Step 2: Categorize and Summarize
 

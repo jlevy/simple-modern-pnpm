@@ -2,21 +2,34 @@
 # Git hooks for code quality
 # Pre-commit: Fast checks with auto-fix (target: 2-5 seconds)
 # Pre-push: Full test validation
+#
+# Formatting: Prettier handles code files; flowmark handles markdown.
+# flowmark runs via uvx (no npm install needed, requires uv).
+# Markdown formatting is best-effort — it runs in pre-commit but is not
+# enforced in CI, since flowmark can be brittle on edge cases.
+# To disable flowmark locally, remove or comment out the format-md command.
 
 pre-commit:
   parallel: true
 
   commands:
-    # Auto-format with prettier (~500ms)
-    # Exclude CLAUDE.md/AGENTS.md symlinks — prettier rejects symlinks as args
+    # Auto-format code with Prettier (~500ms)
+    # Markdown excluded — handled by flowmark below
     format:
-      glob: '*.{js,ts,tsx,json,yaml,yml,md}'
+      glob: '*.{js,ts,tsx,json,yaml,yml}'
+      run: npx prettier --write --log-level warn {staged_files}
+      stage_fixed: true
+      priority: 1
+
+    # Auto-format markdown with flowmark (~500ms)
+    # Uses uvx so no npm dependency needed (requires uv/uvx installed)
+    format-md:
+      glob: '*.md'
       exclude:
         - CLAUDE.md
         - AGENTS.md
-        - template/CLAUDE.md
-        - template/AGENTS.md
-      run: npx prettier --write --log-level warn {staged_files}
+        - template/**
+      run: uvx flowmark@latest --auto {staged_files}
       stage_fixed: true
       priority: 1
 

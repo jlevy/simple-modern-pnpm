@@ -13,8 +13,8 @@
 If you add a new config file at the repo root (e.g., `.nvmrc`, `.editorconfig`):
 
 - It is **automatically included** in the template output.
-- If it contains any placeholder values (see `CLAUDE.md` for the mapping table),
-  the compile script will replace them and add a `.jinja` suffix.
+- If it contains any placeholder values (see `CLAUDE.md` for the mapping table), the
+  compile script will replace them and add a `.jinja` suffix.
 - No changes to the compile script are needed unless the file should be excluded.
 
 ## Excluding Files from Template
@@ -50,6 +50,6 @@ pnpm install && pnpm build && pnpm test
 CI runs a `template-sync` check that:
 
 1. Runs the compile script
-2. Verifies `template/` matches what's committed (`git diff --exit-code`)
+2. Verifies `template/` matches what’s committed (`git diff --exit-code`)
 
 If this check fails, run `pnpm compile-template` and commit the changes.
