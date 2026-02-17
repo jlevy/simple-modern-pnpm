@@ -53,7 +53,6 @@ pnpm test
 │       ├── tsconfig.json
 │       ├── tsdown.config.ts # Build config
 │       └── vitest.config.ts # Test config
-├── .changeset/              # Changesets configuration
 ├── .github/workflows/       # CI/CD workflows
 ├── eslint.config.js         # ESLint flat config
 ├── .prettierrc              # Prettier config

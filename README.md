@@ -16,8 +16,7 @@ and pull upstream improvements over time.
 - **ESLint 9** - Flat config with type-aware rules
 - **Prettier** - Consistent code formatting
 - **Lefthook 2** - Fast git hooks (format, lint, typecheck on commit; test on push)
-- **Changesets** - Automated versioning and changelog generation
-- **GitHub Actions** - CI/CD for testing and npm publishing
+- **GitHub Actions** - CI/CD with tag-triggered npm publishing via OIDC
 
 ## Using This Template
 
@@ -79,10 +78,10 @@ Conflicts are marked inline or as `.rej` files for you to resolve.
 
 ## Documentation
 
-| Document                                   | Description                                |
-| ------------------------------------------ | ------------------------------------------ |
-| [docs/development.md](docs/development.md) | Development setup, scripts, and config     |
-| [docs/publishing.md](docs/publishing.md)   | Versioning, changesets, and npm publishing |
+| Document                                   | Description                            |
+| ------------------------------------------ | -------------------------------------- |
+| [docs/development.md](docs/development.md) | Development setup, scripts, and config |
+| [docs/publishing.md](docs/publishing.md)   | Versioning and npm publishing          |
 
 `CLAUDE.md` and `AGENTS.md` symlink to `docs/development.md` so that AI coding agents
 automatically have development context.
@@ -102,7 +101,6 @@ automatically have development context.
 │       ├── tsconfig.json
 │       ├── tsdown.config.ts
 │       └── vitest.config.ts
-├── .changeset/              # Changesets configuration
 ├── .github/workflows/       # CI/CD (test + release)
 ├── CLAUDE.md -> docs/development.md
 ├── AGENTS.md -> docs/development.md

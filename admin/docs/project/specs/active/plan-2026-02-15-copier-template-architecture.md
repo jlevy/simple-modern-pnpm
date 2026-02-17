@@ -103,13 +103,12 @@ The compile script must distinguish between project dot-directories (included in
 template) and admin dot-directories (excluded). This classification is configured
 explicitly in the compile script:
 
-| Directory     | Classification | Reason                                                    |
-| ------------- | -------------- | --------------------------------------------------------- |
-| `.github/`    | **project**    | CI/CD workflows — every generated project needs these     |
-| `.changeset/` | **project**    | Versioning config — part of the release workflow          |
-| `.claude/`    | **admin**      | Claude Code settings for administering this template repo |
-| `.tbd/`       | **admin**      | Issue tracking for this template repo                     |
-| `attic/`      | **admin**      | Third-party repos cloned for reference during development |
+| Directory  | Classification | Reason                                                    |
+| ---------- | -------------- | --------------------------------------------------------- |
+| `.github/` | **project**    | CI/CD workflows — every generated project needs these     |
+| `.claude/` | **admin**      | Claude Code settings for administering this template repo |
+| `.tbd/`    | **admin**      | Issue tracking for this template repo                     |
+| `attic/`   | **admin**      | Third-party repos cloned for reference during development |
 
 **Excluded from template (configured in compile script):**
 
@@ -180,7 +179,6 @@ simple-modern-pnpm/
       specs/active/...
 
   # --- Everything below IS the project (all included in template) ---
-  .changeset/
   .github/workflows/
     ci.yml                       # Working CI + template-sync validation
     release.yml                  # Working release workflow
@@ -409,16 +407,43 @@ Parent bead: **`smp-7qqy`** — Backfill project setup improvements from tbd rep
 - [ ] CI structure — **`smp-qd6a`** proposes multi-OS matrix (ubuntu, macos, windows)
       and separating coverage into its own job. For template: keep single-OS
       (ubuntu-latest) for simplicity. Apply multi-OS only to admin repo CI if desired.
-- [ ] Release workflow pattern — Current: tag-triggered. Guidelines:
-      `changesets/action@v1` on push to main (PR-based). tbd: tag-triggered.
-      Decide which for template. **`smp-gaot`**
+- [x] Release workflow pattern — **Resolved:** tag-triggered + OIDC trusted publishing.
+      Changesets removed (see 0.11). **`smp-gaot`**
 - [ ] **`smp-kwxd`** — Verify `permissions` scope is minimal.
 
-#### 0.11 Changeset config
+#### 0.11 Release workflow: OIDC + tag-triggered (no Changesets)
 
-- [ ] `.changeset/config.json` — `changelog` field uses `@changesets/cli/changelog`.
-      Guidelines recommend `@changesets/changelog-github` (richer but adds dependency).
-      Keep simpler default for template. _(no bead — no change)_
+**Decision:** Changesets has been removed. The release workflow is tag-triggered with
+OIDC trusted publishing to npm (no `NPM_TOKEN` secrets).
+
+Rationale: Changesets adds ceremony (temp markdown files → version command → changelog
+extraction → cleanup) that provides no value for a single-package template. Agents and
+humans can write changelogs directly. OIDC eliminates token management entirely — GitHub
+Actions presents an OIDC identity to npm, which issues a one-time credential per workflow
+run with provenance attestation.
+
+**Release flow:**
+
+1. `pnpm release:changes` — review commits since last tag
+2. Write `release-notes.md` — agent or human summarizes changes
+3. (Optional) Review with user — agent checks if notes look ready
+4. Bump version in `packages/PACKAGE/package.json`
+5. Commit everything (including `release-notes.md`)
+6. Tag and push — triggers CI
+
+CI publishes automatically on `v*` tags and creates a GitHub Release using
+`release-notes.md` as the body (`body_path: release-notes.md` in the workflow).
+
+**Design principles:**
+
+- `release-notes.md` is the source of truth for the GitHub Release body
+- It is written and reviewed _before_ tagging, not extracted from CHANGELOG after
+- No package names are hardcoded in the release workflow — the workflow reads a
+  single file from the repo root, making it package-name-agnostic
+- No inline bash scripts in the workflow YAML beyond minimal GitHub Actions wiring
+- `pnpm release:changes` is a simple `git log` one-liner (no external scripts)
+  that shows all commits since the last tag; falls back to showing all commits
+  if no tags exist
 
 #### 0.12 CLAUDE.md and agent configs (admin-only)
 
@@ -434,7 +459,6 @@ These are excluded from template output. Changes here improve the admin repo onl
 
 - [ ] `LICENSE` — Root keeps real license, template gets placeholder.
       Already addressed in this spec. _(no bead)_
-- [ ] **`smp-nvfb`** — Verify `.changeset/README.md` exists and is included in template.
 - [ ] **`smp-9qjw`** — Create `.gitattributes` file at repo root.
       (Missing from original checklist. tbd has one? Verify what it should contain —
       typically `* text=auto` for line ending normalization.)
@@ -448,7 +472,8 @@ After completing the audit, the key decisions to make are:
 3. **Lefthook version**: Stay on v1 or upgrade to v2? **`smp-d5yn`**
 4. **CI actions versions**: Upgrade to v6 — verify runner compat. **`smp-yf1d`**
 5. **tsdown version**: Use caret range (`^0.20.1`) not pinned beta. **`smp-71bs`**
-6. **Release workflow pattern**: Tag-triggered or changesets/action? **`smp-gaot`**
+6. **Release workflow pattern**: ~~Tag-triggered or changesets/action?~~ **Resolved:**
+   Tag-triggered + OIDC, no changesets. **`smp-gaot`**
 7. **ESM-only or dual-format exports**: For starter package. **`smp-4uik`**
 8. **TypeScript target**: ES2023 or ES2024? **`smp-bo1i`**
 

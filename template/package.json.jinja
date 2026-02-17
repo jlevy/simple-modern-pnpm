@@ -25,16 +25,14 @@
     "precommit": "pnpm format:check && pnpm lint:check",
     "ci": "pnpm format:check && pnpm lint:check && pnpm build && pnpm publint && pnpm test:coverage",
     "prepare": "lefthook install",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "pnpm build && pnpm publint && changeset publish",
+    "release": "pnpm build && pnpm publint && pnpm -r publish --access public",
+    "release:changes": "git log $(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)..HEAD --oneline",
     "upgrade:check": "ncu --format group",
     "upgrade": "ncu --target minor -u && pnpm install && pnpm test",
     "upgrade:major": "ncu --target latest --interactive --format group",
     "compile-template": "python admin/compile_template.py"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.8",
     "@eslint/js": "^9.39.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",

@@ -5,7 +5,6 @@ pnpm-lock.yaml
 *.min.css
 coverage
 .git
-.changeset
 .tbd
 attic
 template
