@@ -1,5 +1,5 @@
 {
-  "name": "placeholder-workspace",
+  "name": "{{ workspace_name }}",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.29.3",
@@ -16,7 +16,7 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
-    "test:coverage": "pnpm --filter placeholder-package test:coverage",
+    "test:coverage": "pnpm --filter {{ package_name }} test:coverage",
     "publint": "pnpm -r publint",
     "format": "prettier --write --log-level warn . && uvx flowmark@latest --auto .",
     "format:md": "uvx flowmark@latest --auto .",

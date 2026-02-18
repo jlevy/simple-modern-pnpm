@@ -1,4 +1,4 @@
 {
   "files": [],
-  "references": [{ "path": "./packages/TODO-package-name" }]
+  "references": [{ "path": "./packages/placeholder-package" }]
 }

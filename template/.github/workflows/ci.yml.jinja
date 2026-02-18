@@ -38,28 +38,8 @@ jobs:
         uses: davelosert/vitest-coverage-report-action@v2
         if: always()
         with:
-          working-directory: packages/placeholder-package
+          working-directory: packages/{{ package_name }}
           json-summary-path: coverage/coverage-summary.json
           json-final-path: coverage/coverage-final.json
           file-coverage-mode: ${{ github.event_name == 'pull_request' && 'changes' || 'all' }}
 
-  # ADMIN-ONLY-START
-  template-sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Compile template
-        run: python admin/compile_template.py
-
-      - name: Verify template is in sync
-        run: |
-          if ! git diff --exit-code template/; then
-            echo "::error::template/ is out of sync. Run 'pnpm compile-template' and commit the changes."
-            exit 1
-          fi
-  # ADMIN-ONLY-END

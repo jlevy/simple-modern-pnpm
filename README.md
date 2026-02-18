@@ -2,166 +2,116 @@
 
 A minimal, modern TypeScript project template using pnpm workspaces.
 
-This template provides a production-ready monorepo structure with best practices for TypeScript
-development, following patterns documented in modern TypeScript ecosystem research.
+This template provides a production-ready monorepo structure with best practices for
+TypeScript development.
+Use [Copier](https://copier.readthedocs.io/) to create new projects from this template
+and pull upstream improvements over time.
 
 ## Features
 
 - **pnpm workspaces** - Efficient monorepo dependency management
-- **TypeScript 5.7+** - Modern TypeScript with strict configuration
+- **TypeScript 5.9+** - Modern TypeScript with strict configuration
 - **tsdown** - Fast ESM builds with TypeScript declarations
-- **Vitest** - Fast unit testing with coverage
+- **Vitest 4** - Fast unit testing with coverage
 - **ESLint 9** - Flat config with type-aware rules
 - **Prettier** - Consistent code formatting
-- **Lefthook** - Fast git hooks (format, lint, typecheck on commit; test on push)
-- **Changesets** - Automated versioning and changelog generation
-- **GitHub Actions** - CI/CD for testing and npm publishing
+- **Lefthook 2** - Fast git hooks (format, lint, typecheck on commit; test on push)
+- **GitHub Actions** - CI/CD with tag-triggered npm publishing via OIDC
 
-## Quick Start
+## Using This Template
 
-### Using This Template
+This template uses [Copier](https://copier.readthedocs.io/) for project generation and
+ongoing upstream updates.
+We recommend installing Copier via [uv](https://docs.astral.sh/uv/) (shown below), but
+any installation method works.
 
-1. Click "Use this template" on GitHub, or clone and remove git history:
+### Create a new project
 
-   ```bash
-   git clone https://github.com/TODO-github-org/simple-modern-pnpm.git my-project
-   cd my-project
-   rm -rf .git
-   git init
-   ```
+```bash
+uvx copier copy gh:jlevy/simple-modern-pnpm my-project
+cd my-project
+pnpm install
+pnpm build && pnpm test
+git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
+```
 
-2. Find and replace all `TODO-*` placeholders:
+Copier will prompt for these values:
 
-   | Placeholder           | Replace with        | Example                |
-   | --------------------- | ------------------- | ---------------------- |
-   | `TODO-workspace-name` | Your workspace name | `my-project-workspace` |
-   | `TODO-package-name`   | Your package name   | `my-package`           |
-   | `TODO-description`    | Package description | `A useful library`     |
-   | `TODO-author-name`    | Your name           | `Jane Doe`             |
-   | `TODO-author-email`   | Your email          | `jane@example.com`     |
-   | `TODO-github-org`     | GitHub org/username | `janedoe`              |
-   | `TODO-repo-name`      | Repository name     | `my-project`           |
+| Variable | Description | Example |
+| --- | --- | --- |
+| `workspace_name` | Root package.json `name` | `my-workspace` |
+| `package_name` | Starter package name | `my-utils` |
+| `package_description` | One-line description | `Shared utilities` |
+| `author_name` | Package author | `Jane Doe` |
+| `author_email` | Author email | `jane@example.com` |
+| `github_org` | GitHub org or username | `my-org` |
+| `repo_name` | GitHub repository name | `my-project` |
 
-3. Rename the package directory:
+### Copy into an existing repo
 
-   ```bash
-   mv packages/TODO-package-name packages/your-package-name
-   ```
+```bash
+cd existing-repo
+uvx copier copy gh:jlevy/simple-modern-pnpm .
 
-4. Update `tsconfig.json` to reference your package:
+# Review what changed
+git diff
 
-   ```json
-   {
-     "files": [],
-     "references": [{ "path": "./packages/your-package-name" }]
-   }
-   ```
+# Merge your existing code: restore your source files, merge configs
+pnpm install
+pnpm build && pnpm test
+git add . && git commit -m "Add simple-modern-pnpm template structure"
+```
 
-5. Install dependencies and verify everything works:
+### Pull upstream template updates
 
-   ```bash
-   pnpm install
-   pnpm build
-   pnpm test
-   ```
+After creating a project from this template, you can pull in future improvements:
 
-## Development
+```bash
+uvx copier update
+pnpm install && pnpm build && pnpm test
+git add . && git commit -m "Update from simple-modern-pnpm template"
+```
 
-### Scripts
+Copier does a three-way merge: it regenerates the old template version, diffs your local
+changes, and applies the new template on top.
+Conflicts are marked inline or as `.rej` files for you to resolve.
 
-| Command              | Description              |
-| -------------------- | ------------------------ |
-| `pnpm build`         | Build all packages       |
-| `pnpm test`          | Run tests                |
-| `pnpm test:coverage` | Run tests with coverage  |
-| `pnpm lint`          | Lint and auto-fix        |
-| `pnpm lint:check`    | Lint without fixing (CI) |
-| `pnpm format`        | Format code              |
-| `pnpm format:check`  | Check formatting (CI)    |
-| `pnpm typecheck`     | Type check all packages  |
+## Documentation
 
-### Dependency Management
+| Document | Description |
+| --- | --- |
+| [docs/development.md](docs/development.md) | Development setup, scripts, and config |
+| [docs/publishing.md](docs/publishing.md) | Versioning and npm publishing |
 
-| Command              | Description                        |
-| -------------------- | ---------------------------------- |
-| `pnpm upgrade:check` | Check for available updates        |
-| `pnpm upgrade`       | Safe upgrade (minor + patch)       |
-| `pnpm upgrade:major` | Interactive major version upgrades |
-
-### Versioning & Release
-
-| Command                 | Description                         |
-| ----------------------- | ----------------------------------- |
-| `pnpm changeset`        | Create a changeset for your changes |
-| `pnpm version-packages` | Apply changesets and bump versions  |
-| `pnpm release`          | Build, validate, and publish to npm |
+`CLAUDE.md` and `AGENTS.md` symlink to `docs/development.md` so that AI coding agents
+automatically have development context.
 
 ## Project Structure
 
 ```
 .
-├── .changeset/              # Changesets configuration
-├── .github/workflows/       # CI/CD workflows
+├── docs/
+│   ├── development.md       # Development guide (= CLAUDE.md, AGENTS.md)
+│   └── publishing.md        # Publishing and release guide
 ├── packages/
-│   └── TODO-package-name/   # Your package
+│   └── <package>/           # Your package(s)
 │       ├── src/             # Source code
 │       ├── tests/           # Tests
 │       ├── package.json
 │       ├── tsconfig.json
 │       ├── tsdown.config.ts
 │       └── vitest.config.ts
-├── .eslintconfig.js         # ESLint flat config
+├── .github/workflows/       # CI/CD (test + release)
+├── CLAUDE.md -> docs/development.md
+├── AGENTS.md -> docs/development.md
+├── eslint.config.js         # ESLint flat config
 ├── .prettierrc              # Prettier config
 ├── lefthook.yml             # Git hooks
 ├── package.json             # Root workspace config
-├── pnpm-workspace.yaml      # Workspace definition
-└── tsconfig.base.json       # Shared TypeScript config
+├── pnpm-workspace.yaml      # Workspace packages
+├── tsconfig.json            # Root TypeScript config
+└── tsconfig.base.json       # Shared TypeScript settings
 ```
-
-## Adding More Packages
-
-1. Create a new directory under `packages/`:
-
-   ```bash
-   mkdir -p packages/new-package/src packages/new-package/tests
-   ```
-
-2. Copy and adapt configuration files from the existing package.
-
-3. Add the package reference to root `tsconfig.json`:
-
-   ```json
-   {
-     "references": [{ "path": "./packages/existing-package" }, { "path": "./packages/new-package" }]
-   }
-   ```
-
-## Configuration Details
-
-### TypeScript
-
-- `moduleResolution: "Bundler"` - Optimized for tsdown
-- `noUncheckedIndexedAccess: true` - Safer array/object access
-- `verbatimModuleSyntax: true` - Enforces explicit type imports
-
-### ESLint
-
-- Type-aware rules via `typescript-eslint`
-- Promise safety rules (no floating promises, no misused promises)
-- Consistent type imports (`import type`)
-- Relaxed rules for test files
-
-### Git Hooks (Lefthook)
-
-- **Pre-commit**: Format, lint, and typecheck staged files
-- **Pre-push**: Run full test suite
-
-## Publishing
-
-1. Create an npm account and generate an access token
-2. Add `NPM_TOKEN` secret to your GitHub repository
-3. Create a git tag: `git tag v0.1.0 && git push --tags`
-4. The release workflow will automatically publish to npm
 
 ## License
 

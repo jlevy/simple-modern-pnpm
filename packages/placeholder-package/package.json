@@ -1,0 +1,52 @@
+{
+  "name": "placeholder-package",
+  "version": "0.1.0",
+  "description": "A modern TypeScript package",
+  "license": "MIT",
+  "author": "Package Author <author@example.com>",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/placeholder-org/placeholder-repo.git",
+    "directory": "packages/placeholder-package"
+  },
+  "homepage": "https://github.com/placeholder-org/placeholder-repo#readme",
+  "bugs": {
+    "url": "https://github.com/placeholder-org/placeholder-repo/issues"
+  },
+  "keywords": [],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "publint": "publint",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.19.7",
+    "@vitest/coverage-v8": "^4.0.18",
+    "publint": "^0.3.17",
+    "tsdown": "^0.20.3",
+    "vitest": "^4.0.18"
+  }
+}
