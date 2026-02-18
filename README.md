@@ -38,17 +38,29 @@ and pull upstream improvements over time.
 
 2. **Initialize from template**:
 
+   **Interactive (for humans):**
    ```bash
    uvx copier copy gh:jlevy/simple-modern-pnpm . --overwrite
    ```
 
-   Copier will prompt for:
+   **Non-interactive (for agents/automation):**
+   ```bash
+   uvx copier copy gh:jlevy/simple-modern-pnpm . --overwrite \
+     --data workspace_name=my-project \
+     --data package_name=my-package \
+     --data package_description="My project description" \
+     --data author_name="Your Name" \
+     --data author_email="you@example.com" \
+     --data github_org=my-org \
+     --data repo_name=my-project
+   ```
 
-   - `workspace_name` - Root package name (e.g., `my-workspace`)
-   - `package_name` - Starter package name (e.g., `my-utils`)
+   **Template variables:**
+   - `workspace_name` - Root package name
+   - `package_name` - Starter package name
    - `package_description` - One-line description
-   - `author_name` & `author_email` - Your information
-   - `github_org` & `repo_name` - Match your GitHub repo
+   - `author_name` & `author_email` - Author information
+   - `github_org` & `repo_name` - GitHub repository
 
 3. **Install and verify**:
 
@@ -66,12 +78,26 @@ and pull upstream improvements over time.
    git push
    ```
 
-### Alternative: Standalone Project
+### Alternative: Standalone Project (No GitHub Repo)
 
-If you don’t want to create the GitHub repo first:
-
+**Interactive:**
 ```bash
 uvx copier copy gh:jlevy/simple-modern-pnpm my-project
+cd my-project
+pnpm install && pnpm format && pnpm build && pnpm test
+git init && git add . && git commit -m "Initial commit"
+```
+
+**Non-interactive:**
+```bash
+uvx copier copy gh:jlevy/simple-modern-pnpm my-project \
+  --data workspace_name=my-project \
+  --data package_name=my-package \
+  --data package_description="Description" \
+  --data author_name="Your Name" \
+  --data author_email="you@example.com" \
+  --data github_org=my-org \
+  --data repo_name=my-project
 cd my-project
 pnpm install && pnpm format && pnpm build && pnpm test
 git init && git add . && git commit -m "Initial commit"
