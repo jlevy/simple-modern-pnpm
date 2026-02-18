@@ -52,5 +52,43 @@ pre-commit:
 
 pre-push:
   commands:
-    test:
-      run: pnpm test
+    verify-tests:
+      run: |
+        echo "🔍 Checking test status for push..."
+
+        # Get current commit hash
+        COMMIT_HASH=$(git rev-parse HEAD)
+        CACHE_DIR="node_modules/.test-cache"
+        CACHE_FILE="$CACHE_DIR/$COMMIT_HASH"
+
+        # Check for uncommitted changes
+        if ! git diff --quiet || ! git diff --cached --quiet; then
+          echo "⚠️  Uncommitted changes detected"
+          echo "📊 Running test suite..."
+          pnpm test
+          exit $?
+        fi
+
+        # Check cache
+        if [ -f "$CACHE_FILE" ]; then
+          SHORT_HASH=$(echo "$COMMIT_HASH" | cut -c1-8)
+          echo "✓ Tests already passed for commit $SHORT_HASH"
+          exit 0
+        fi
+
+        # No cache, run tests
+        echo "📊 Running test suite..."
+        pnpm test
+
+        # Cache on success
+        if [ $? -eq 0 ]; then
+          mkdir -p "$CACHE_DIR"
+          touch "$CACHE_FILE"
+          SHORT_HASH=$(echo "$COMMIT_HASH" | cut -c1-8)
+          echo "✅ Tests passed and cached for commit $SHORT_HASH"
+          exit 0
+        else
+          echo "❌ Tests failed - push blocked"
+          echo "Fix tests and try again, or bypass with: git push --no-verify"
+          exit 1
+        fi

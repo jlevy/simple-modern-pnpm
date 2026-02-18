@@ -6,7 +6,7 @@ export default defineConfig({
   },
   format: ['esm'],
   platform: 'node',
-  target: 'node22',
+  target: 'node24',
   sourcemap: true,
   dts: true,
   clean: true,

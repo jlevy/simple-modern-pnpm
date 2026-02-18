@@ -19,7 +19,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^22.19.7",
+    "@types/node": "^24.0.0",
     "@vitest/coverage-v8": "^4.0.18",
     "publint": "^0.3.17",
     "tsdown": "^0.20.3",

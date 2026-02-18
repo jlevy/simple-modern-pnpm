@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) >= 22 (see `.nvmrc`)
+- [Node.js](https://nodejs.org/) >= 24 (see `.nvmrc`)
 - [pnpm](https://pnpm.io/) (enabled via `corepack enable`)
 - [uv](https://docs.astral.sh/uv/) (recommended — required for Copier template
   generation and flowmark markdown formatting)
@@ -90,7 +90,7 @@ pnpm test
 
 ### TypeScript
 
-- **Target**: ES2024 (modern JavaScript features for Node 22+)
+- **Target**: ES2024 (modern JavaScript features for Node 24+)
 - **Module resolution**: `Bundler` (optimized for tsdown)
 - **Strict settings**: `noUncheckedIndexedAccess`, `verbatimModuleSyntax`,
   `exactOptionalPropertyTypes`
@@ -134,7 +134,7 @@ installed).
 ### Build (tsdown)
 
 - ESM-only output (`.mjs` + `.d.mts`)
-- Target: Node 22
+- Target: Node 24
 - Source maps enabled
 - TypeScript declarations generated
 
