@@ -18,78 +18,76 @@ and pull upstream improvements over time.
 - **Lefthook 2** - Fast git hooks (format, lint, typecheck on commit; test on push)
 - **GitHub Actions** - CI/CD with tag-triggered npm publishing via OIDC
 
-## Using This Template
+## Quick Start
 
-This template uses [Copier](https://copier.readthedocs.io/) for project generation and
-ongoing upstream updates.
-We recommend installing Copier via [uv](https://docs.astral.sh/uv/) (shown below), but
-any installation method works.
+### Prerequisites
 
-### Create a new project
+- Node.js 24+ ([nvm](https://github.com/nvm-sh/nvm) recommended)
+- [pnpm](https://pnpm.io/) (via `corepack enable`)
+- [uv](https://docs.astral.sh/uv/) (for running Copier)
+
+### Create a New Project
+
+1. **Create your GitHub repository** (recommended):
+
+   ```bash
+   gh repo create my-org/my-project --public --gitignore Node --license MIT --description "My project description"
+   git clone https://github.com/my-org/my-project
+   cd my-project
+   ```
+
+2. **Initialize from template**:
+
+   ```bash
+   uvx copier copy gh:jlevy/simple-modern-pnpm . --overwrite
+   ```
+
+   Copier will prompt for:
+
+   - `workspace_name` - Root package name (e.g., `my-workspace`)
+   - `package_name` - Starter package name (e.g., `my-utils`)
+   - `package_description` - One-line description
+   - `author_name` & `author_email` - Your information
+   - `github_org` & `repo_name` - Match your GitHub repo
+
+3. **Install and verify**:
+
+   ```bash
+   pnpm install
+   pnpm format
+   pnpm build && pnpm test
+   ```
+
+4. **Commit and push**:
+
+   ```bash
+   git add .
+   git commit -m "feat: initialize from simple-modern-pnpm"
+   git push
+   ```
+
+### Alternative: Standalone Project
+
+If you don’t want to create the GitHub repo first:
 
 ```bash
 uvx copier copy gh:jlevy/simple-modern-pnpm my-project
 cd my-project
-pnpm install
-pnpm format        # Format generated files
-pnpm build && pnpm test
-git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
+pnpm install && pnpm format && pnpm build && pnpm test
+git init && git add . && git commit -m "Initial commit"
 ```
 
-Copier will prompt for these values:
+### Update from Template
 
-| Variable | Description | Example |
-| --- | --- | --- |
-| `workspace_name` | Root package.json `name` | `my-workspace` |
-| `package_name` | Starter package name | `my-utils` |
-| `package_description` | One-line description | `Shared utilities` |
-| `author_name` | Package author | `Jane Doe` |
-| `author_email` | Author email | `jane@example.com` |
-| `github_org` | GitHub org or username | `my-org` |
-| `repo_name` | GitHub repository name | `my-project` |
-
-**Alternative:** Create the GitHub repo first, then clone and initialize:
-
-```bash
-gh repo create my-org/my-project --public --gitignore Node --license MIT
-git clone https://github.com/my-org/my-project
-cd my-project
-uvx copier copy gh:jlevy/simple-modern-pnpm . --overwrite
-pnpm install
-pnpm format
-pnpm build && pnpm test
-git add . && git commit -m "Initial commit from simple-modern-pnpm"
-git push
-```
-
-### Copy into an existing repo
-
-```bash
-cd existing-repo
-uvx copier copy gh:jlevy/simple-modern-pnpm .
-
-# Review what changed
-git diff
-
-# Merge your existing code: restore your source files, merge configs
-pnpm install
-pnpm build && pnpm test
-git add . && git commit -m "Add simple-modern-pnpm template structure"
-```
-
-### Pull upstream template updates
-
-After creating a project from this template, you can pull in future improvements:
+Pull in future template improvements:
 
 ```bash
 uvx copier update
-pnpm install && pnpm build && pnpm test
-git add . && git commit -m "Update from simple-modern-pnpm template"
+pnpm install && pnpm format && pnpm build && pnpm test
+git add . && git commit -m "chore: update from simple-modern-pnpm template"
 ```
 
-Copier does a three-way merge: it regenerates the old template version, diffs your local
-changes, and applies the new template on top.
-Conflicts are marked inline or as `.rej` files for you to resolve.
+Copier performs a smart three-way merge and marks conflicts for you to resolve.
 
 ## Documentation
 
