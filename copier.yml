@@ -3,6 +3,7 @@
 
 _subdirectory: template
 _templates_suffix: .jinja
+_answers_file: .copier-answers.yml
 
 # Use [[]] for variables and [%...%] for blocks to avoid conflicts with GitHub Actions syntax
 _envops:
