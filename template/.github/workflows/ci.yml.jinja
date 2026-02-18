@@ -38,8 +38,8 @@ jobs:
         uses: davelosert/vitest-coverage-report-action@v2
         if: always()
         with:
-          working-directory: packages/{{ package_name }}
+          working-directory: packages/[[ package_name ]]
           json-summary-path: coverage/coverage-summary.json
           json-final-path: coverage/coverage-final.json
-          file-coverage-mode: ${{ github.event_name == 'pull_request' && 'changes' || 'all' }}
+          file-coverage-mode: "${{ github.event_name == 'pull_request' && 'changes' || 'all' }}"
 

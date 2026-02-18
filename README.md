@@ -31,6 +31,7 @@ any installation method works.
 uvx copier copy gh:jlevy/simple-modern-pnpm my-project
 cd my-project
 pnpm install
+pnpm format        # Format generated files
 pnpm build && pnpm test
 git init && git add . && git commit -m "Initial commit from simple-modern-pnpm"
 ```
@@ -46,6 +47,20 @@ Copier will prompt for these values:
 | `author_email` | Author email | `jane@example.com` |
 | `github_org` | GitHub org or username | `my-org` |
 | `repo_name` | GitHub repository name | `my-project` |
+
+**Alternative:** Create the GitHub repo first, then clone and initialize:
+
+```bash
+gh repo create my-org/my-project --public --gitignore Node --license MIT
+git clone https://github.com/my-org/my-project
+cd my-project
+uvx copier copy gh:jlevy/simple-modern-pnpm . --overwrite
+pnpm install
+pnpm format
+pnpm build && pnpm test
+git add . && git commit -m "Initial commit from simple-modern-pnpm"
+git push
+```
 
 ### Copy into an existing repo
 
