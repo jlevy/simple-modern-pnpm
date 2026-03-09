@@ -65,6 +65,11 @@ BINARY_EXTENSIONS = {
 }
 
 
+def normalize_text_content(content: str) -> str:
+    """Normalize text files to exactly one trailing newline."""
+    return content.rstrip("\n") + "\n"
+
+
 def is_excluded(path: Path) -> bool:
     """Check if a path should be excluded from the template."""
     rel = path.relative_to(REPO_ROOT)
@@ -105,6 +110,29 @@ def apply_replacements(content: str) -> tuple[str, bool]:
     content = strip_admin_only(content)
     for old, new in REPLACEMENTS:
         content = content.replace(old, new)
+    return content, content != original
+
+
+def sanitize_generated_content(rel_path: Path, content: str) -> tuple[str, bool]:
+    """Remove template-admin-only content from generated files."""
+    original = content
+    path = rel_path.as_posix()
+
+    if path == ".gitignore":
+        content = "\n".join(line for line in content.splitlines() if line != "attic/")
+    elif path == "lefthook.yml":
+        content = content.replace("        - template/**\n", "")
+    elif path == "eslint.config.js":
+        content = content.replace("      'template/**',\n", "")
+        content = content.replace("      'attic/**',\n", "")
+    elif path == "package.json":
+        content = re.sub(
+            r'\n\s+"compile-template": "python admin/compile_template.py"',
+            "",
+            content,
+        )
+        content = re.sub(r",\n(\s*[}\]])", r"\n\1", content)
+
     return content, content != original
 
 
@@ -164,6 +192,9 @@ def compile_template() -> None:
             continue
 
         new_content, was_modified = apply_replacements(content)
+        new_content, was_sanitized = sanitize_generated_content(rel_path, new_content)
+        new_content = normalize_text_content(new_content)
+        was_modified = was_modified or was_sanitized or new_content != content
 
         if was_modified:
             # Add .jinja suffix for files that were modified
@@ -179,41 +210,91 @@ def compile_template() -> None:
 
     # Create special Copier files
 
-    # 1. Starter README for generated projects
-    # Note: Copier generates .copier-answers.yml automatically - we don't need to create it
-    readme_path = TEMPLATE_DIR / "README.md.jinja"
-    readme_path.write_text(
-        "# [[ repo_name ]]\n"
-        "\n"
-        "[[ package_description ]]\n"
-        "\n"
-        "## Development\n"
-        "\n"
-        "See [docs/development.md](docs/development.md) for full setup and workflow details.\n"
-        "\n"
-        "```bash\n"
-        "pnpm install\n"
-        "pnpm build\n"
-        "pnpm test\n"
-        "```\n"
-        "\n"
-        "## Publishing\n"
-        "\n"
-        "See [docs/publishing.md](docs/publishing.md).\n"
-        "\n"
-        "## License\n"
-        "\n"
-        "MIT\n",
+    # 1. Copier answers file (required for `copier update`)
+    answers_path = TEMPLATE_DIR / "[[ _copier_conf.answers_file ]].jinja"
+    answers_path.write_text(
+        normalize_text_content(
+            "# Changes here will be overwritten by Copier\n"
+            "[[ _copier_answers|to_nice_yaml -]]"
+        ),
         encoding="utf-8",
     )
 
-    # 3. Placeholder LICENSE for generated projects
+    # 2. Starter README for generated projects
+    readme_path = TEMPLATE_DIR / "README.md.jinja"
+    readme_path.write_text(
+        normalize_text_content(
+            "# [[ repo_name ]]\n"
+            "\n"
+            "[[ package_description ]]\n"
+            "\n"
+            "This repo was generated from "
+            "[simple-modern-pnpm](https://github.com/jlevy/simple-modern-pnpm), "
+            "an agent-friendly template for a modern model repo in TypeScript using pnpm.\n"
+            "\n"
+            "## Bootstrap\n"
+            "\n"
+            "```bash\n"
+            "pnpm install\n"
+            "pnpm check\n"
+            "```\n"
+            "\n"
+            "If you created this repo in a scratch directory before `git init`, run:\n"
+            "\n"
+            "```bash\n"
+            "git init -b main\n"
+            "pnpm prepare\n"
+            "```\n"
+            "\n"
+            "## Template Updates\n"
+            "\n"
+            "Keep `.copier-answers.yml` committed. To pull upstream template updates:\n"
+            "\n"
+            "```bash\n"
+            "uvx copier update\n"
+            "pnpm install\n"
+            "pnpm check\n"
+            "```\n"
+            "\n"
+            "## Docs\n"
+            "\n"
+            "- [docs/development.md](docs/development.md) - development workflow and Copier guidance\n"
+            "- [docs/publishing.md](docs/publishing.md) - release and publishing workflow\n"
+            "- `AGENTS.md` and `CLAUDE.md` mirror the development guide for coding agents\n"
+            "\n"
+            "## License\n"
+            "\n"
+            "See [LICENSE](LICENSE).\n"
+        ),
+        encoding="utf-8",
+    )
+
+    # 3. MIT LICENSE template for generated projects
     license_path = TEMPLATE_DIR / "LICENSE"
     license_path.write_text(
-        "TODO: Add your license here.\n"
-        "\n"
-        "Choose a license at https://choosealicense.com/\n"
-        "Common choices: MIT, Apache-2.0, ISC\n",
+        normalize_text_content(
+            "MIT License\n"
+            "\n"
+            "Copyright (c) [year] [fullname]\n"
+            "\n"
+            "Permission is hereby granted, free of charge, to any person obtaining a copy\n"
+            "of this software and associated documentation files (the \"Software\"), to deal\n"
+            "in the Software without restriction, including without limitation the rights\n"
+            "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n"
+            "copies of the Software, and to permit persons to whom the Software is\n"
+            "furnished to do so, subject to the following conditions:\n"
+            "\n"
+            "The above copyright notice and this permission notice shall be included in all\n"
+            "copies or substantial portions of the Software.\n"
+            "\n"
+            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n"
+            "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n"
+            "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n"
+            "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n"
+            "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n"
+            "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n"
+            "SOFTWARE.\n"
+        ),
         encoding="utf-8",
     )
 

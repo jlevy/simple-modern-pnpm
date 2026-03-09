@@ -52,6 +52,17 @@ export default [
   // Base JS rules
   js.configs.recommended,
 
+  // Node globals for helper scripts
+  {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+      },
+    },
+  },
+
   // Type-aware TypeScript rules
   ...typedRecommended,
   ...typedStylistic,

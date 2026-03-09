@@ -21,7 +21,7 @@ Run from the package directory (important: the root `.npmrc` has pnpm-specific c
 that confuses npm):
 
 ```bash
-cd packages/PACKAGE
+cd packages/[[ package_name ]]
 npm publish --access public
 ```
 
@@ -29,7 +29,7 @@ This will prompt for web-based authentication in your browser.
 
 ### 2. Configure OIDC Trusted Publishing on npm
 
-1. Go to https://www.npmjs.com/package/PACKAGE/access
+1. Go to https://www.npmjs.com/package/[[ package_name ]]/access
 
 2. Under “Publishing access”, click “Add a trusted publisher” or “Configure Trusted
    Publishing”
@@ -37,8 +37,8 @@ This will prompt for web-based authentication in your browser.
 3. Select **GitHub Actions** as the publisher
 
 4. Fill in the form:
-   - **Organization or user**: `OWNER`
-   - **Repository**: `REPO`
+   - **Organization or user**: `[[ github_org ]]`
+   - **Repository**: `[[ repo_name ]]`
    - **Workflow filename**: `release.yml`
    - **Environment name**: Leave blank (not required unless using GitHub environments)
 
@@ -61,6 +61,7 @@ All commands are non-interactive and can be run by an agent or human.
 git checkout main
 git pull
 git status  # Must be clean
+pnpm check
 ```
 
 ### Step 2: Review Changes and Write Release Notes
@@ -91,7 +92,7 @@ Update `version` in the package’s `package.json`.
 
 ```bash
 git add .
-git commit -m "chore: release PACKAGE v0.2.0"
+git commit -m "chore: release [[ package_name ]] v0.2.0"
 git tag v0.2.0
 git push && git push --tags
 ```
@@ -146,7 +147,7 @@ Multiple related commits should be combined into a single bullet point.
 
 - Significant internal change (if user-relevant)
 
-**Full commit history**: https://github.com/OWNER/REPO/compare/vX.X.X...vY.Y.Y
+**Full commit history**: https://github.com/[[ github_org ]]/[[ repo_name ]]/compare/vX.X.X...vY.Y.Y
 ```
 
 ### Tips
@@ -174,10 +175,11 @@ publishes automatically without requiring an `NPM_TOKEN` secret.
 ```bash
 # Full release sequence
 git checkout main && git pull
+pnpm check                              # Verify the repo is ready to release
 pnpm release:changes                    # Review changes
 # Write release-notes.md               # Summarize changes
-# Edit packages/PACKAGE/package.json   # Bump version
-git add . && git commit -m "chore: release PACKAGE v0.2.0"
+# Edit packages/[[ package_name ]]/package.json   # Bump version
+git add . && git commit -m "chore: release [[ package_name ]] v0.2.0"
 git tag v0.2.0
 git push && git push --tags
 ```
@@ -191,7 +193,7 @@ git push && git push --tags
 
 **npm publish failing with 401/403?**
 
-- Verify OIDC is configured: https://www.npmjs.com/package/PACKAGE/access
+- Verify OIDC is configured: https://www.npmjs.com/package/[[ package_name ]]/access
 - Check repository is listed under “Trusted Publishing”
 - Ensure the repository is public
 

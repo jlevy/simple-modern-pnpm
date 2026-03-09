@@ -16,8 +16,8 @@ pre-commit:
     # Auto-format code with Prettier (~500ms)
     # Markdown excluded — handled by flowmark below
     format:
-      glob: '*.{js,ts,tsx,json,yaml,yml}'
-      run: npx prettier --write --log-level warn {staged_files}
+      glob: '*.{js,mjs,ts,tsx,json,yaml,yml}'
+      run: pnpm exec prettier --write --log-level warn {staged_files}
       stage_fixed: true
       priority: 1
 
@@ -28,18 +28,18 @@ pre-commit:
       exclude:
         - CLAUDE.md
         - AGENTS.md
-        - template/**
       run: uvx flowmark@latest --auto {staged_files}
       stage_fixed: true
       priority: 1
 
     # Lint with auto-fix and caching (~1s first, ~200ms cached)
     lint:
-      glob: '*.{js,ts,tsx}'
+      glob: '*.{js,mjs,ts,tsx}'
       run: >
-        npx eslint
+        pnpm exec eslint
         --cache
         --cache-location node_modules/.cache/eslint
+        --no-warn-ignored
         --fix {staged_files}
       stage_fixed: true
       priority: 2

@@ -4,15 +4,14 @@
 
 - [Node.js](https://nodejs.org/) >= 24 (see `.nvmrc`)
 - [pnpm](https://pnpm.io/) (enabled via `corepack enable`)
-- [uv](https://docs.astral.sh/uv/) (recommended — required for Copier template
-  generation and flowmark markdown formatting)
+- [uv](https://docs.astral.sh/uv/) (recommended — used for `copier update` and flowmark
+  markdown formatting)
 
-## Setup
+## First Run
 
 ```bash
 pnpm install
-pnpm build
-pnpm test
+pnpm check
 ```
 
 ## Scripts
@@ -20,9 +19,10 @@ pnpm test
 | Command | Description |
 | --- | --- |
 | `pnpm build` | Build all packages |
-| `pnpm dev` | Build in watch mode |
+| `pnpm check` | Run the full local validation pipeline |
+| `pnpm dev` | Run package build/watch scripts in parallel |
 | `pnpm test` | Run tests |
-| `pnpm test:watch` | Run tests in watch mode |
+| `pnpm test:watch` | Run package test watchers in parallel |
 | `pnpm test:coverage` | Run tests with coverage |
 | `pnpm lint` | Lint and auto-fix |
 | `pnpm lint:check` | Lint without fixing (CI) |
@@ -31,7 +31,7 @@ pnpm test
 | `pnpm format:check` | Check code formatting (Prettier only, for CI) |
 | `pnpm typecheck` | Type check all packages |
 | `pnpm publint` | Validate package.json for publishing |
-| `pnpm ci` | Run full CI pipeline locally |
+| `pnpm prepare` | Install git hooks when Git is available |
 
 ## Dependency Management
 
@@ -41,10 +41,49 @@ pnpm test
 | `pnpm upgrade` | Safe upgrade (minor + patch) |
 | `pnpm upgrade:major` | Interactive major version upgrades |
 
+## Copier Lineage
+
+This repo is designed to keep working with Copier after the initial render.
+
+- Keep `.copier-answers.yml` committed.
+- Use `uvx copier update` to pull upstream template changes.
+- After any update, rerun:
+
+  ```bash
+  pnpm install
+  pnpm check
+  ```
+
+If you created the repo before running `git init`, install hooks after Git exists:
+
+```bash
+git init -b main
+pnpm prepare
+```
+
+If this repo was adopted from an older project, expect future `copier update` runs to
+touch config files more often than app code.
+Review merges carefully around `package.json`, `tsconfig`, ESLint, Lefthook, and GitHub
+workflow files.
+
+## Retrofit Notes
+
+If you adopted this template into an existing repo:
+
+- Replace the starter `packages/<package>/src/` and `packages/<package>/tests/` with
+  your real code and tests.
+- If your old repo kept `src/` or `tests/` at the root, move that code under
+  `packages/<package>/` before running `pnpm check`, or update `pnpm-workspace.yaml`
+  and root `tsconfig.json` references to match your custom layout.
+- Merge runtime dependencies, exports, bin entries, and package metadata from the old
+  root `package.json` into `packages/<package>/package.json`.
+  The generated root `package.json` is for workspace tooling.
+
 ## Project Structure
 
 ```
 .
+├── .copier-answers.yml      # Copier state used by `copier update`
 ├── docs/                    # Project documentation
 │   ├── development.md       # This file
 │   └── publishing.md        # Publishing and release guide
@@ -63,6 +102,8 @@ pnpm test
 ├── lefthook.yml             # Git hooks
 ├── package.json             # Root workspace config
 ├── pnpm-workspace.yaml      # Workspace packages
+├── scripts/
+│   └── prepare-hooks.mjs    # Installs hooks only when Git is available
 ├── tsconfig.json            # Root TypeScript config (project references)
 └── tsconfig.base.json       # Shared TypeScript settings
 ```
@@ -131,6 +172,9 @@ installed).
 - **Pre-push**:
   - Run full test suite with `pnpm test`
 
+`pnpm install` skips hook installation if the directory is not a Git repo yet.
+Run `pnpm prepare` after `git init` when you are ready to install hooks.
+
 ### Build (tsdown)
 
 - ESM-only output (`.mjs` + `.d.mts`)
@@ -142,3 +186,8 @@ installed).
 
 - Coverage via `@vitest/coverage-v8`
 - Reporters: text, json, json-summary
+
+## Agent Context
+
+Generated repos include `AGENTS.md` and `CLAUDE.md` copies of this guide so coding
+agents can load the same repo instructions humans use.

@@ -2,20 +2,38 @@
 
 [[ package_description ]]
 
-## Development
+This repo was generated from [simple-modern-pnpm](https://github.com/jlevy/simple-modern-pnpm), an agent-friendly template for a modern model repo in TypeScript using pnpm.
 
-See [docs/development.md](docs/development.md) for full setup and workflow details.
+## Bootstrap
 
 ```bash
 pnpm install
-pnpm build
-pnpm test
+pnpm check
 ```
 
-## Publishing
+If you created this repo in a scratch directory before `git init`, run:
 
-See [docs/publishing.md](docs/publishing.md).
+```bash
+git init -b main
+pnpm prepare
+```
+
+## Template Updates
+
+Keep `.copier-answers.yml` committed. To pull upstream template updates:
+
+```bash
+uvx copier update
+pnpm install
+pnpm check
+```
+
+## Docs
+
+- [docs/development.md](docs/development.md) - development workflow and Copier guidance
+- [docs/publishing.md](docs/publishing.md) - release and publishing workflow
+- `AGENTS.md` and `CLAUDE.md` mirror the development guide for coding agents
 
 ## License
 
-MIT
+See [LICENSE](LICENSE).
