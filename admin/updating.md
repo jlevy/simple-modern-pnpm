@@ -9,6 +9,12 @@
 5. Run `python admin/smoke_test_template.py`.
 6. Commit both the working project changes and the regenerated `template/`.
 
+## Releasing The Template
+
+Template releases are tag-driven for Copier consumers.
+See `admin/releasing.md` for the maintainer process, tag policy, and GitHub release
+steps.
+
 ## Adding New Configuration Files
 
 If you add a new config file at the repo root (e.g., `.nvmrc`, `.editorconfig`):

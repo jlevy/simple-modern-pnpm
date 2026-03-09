@@ -46,7 +46,9 @@ pnpm check
 This repo is designed to keep working with Copier after the initial render.
 
 - Keep `.copier-answers.yml` committed.
+
 - Use `uvx copier update` to pull upstream template changes.
+
 - After any update, rerun:
 
   ```bash
@@ -73,11 +75,11 @@ If you adopted this template into an existing repo:
 - Replace the starter `packages/<package>/src/` and `packages/<package>/tests/` with
   your real code and tests.
 - If your old repo kept `src/` or `tests/` at the root, move that code under
-  `packages/<package>/` before running `pnpm check`, or update `pnpm-workspace.yaml`
-  and root `tsconfig.json` references to match your custom layout.
+  `packages/<package>/` before running `pnpm check`, or update `pnpm-workspace.yaml` and
+  root `tsconfig.json` references to match your custom layout.
 - Merge runtime dependencies, exports, bin entries, and package metadata from the old
-  root `package.json` into `packages/<package>/package.json`.
-  The generated root `package.json` is for workspace tooling.
+  root `package.json` into `packages/<package>/package.json`. The generated root
+  `package.json` is for workspace tooling.
 
 ## Project Structure
 

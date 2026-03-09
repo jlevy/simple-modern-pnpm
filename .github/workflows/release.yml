@@ -12,6 +12,9 @@ permissions:
 
 jobs:
   release:
+    # ADMIN-ONLY-START
+    if: github.repository != 'jlevy/simple-modern-pnpm'
+    # ADMIN-ONLY-END
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

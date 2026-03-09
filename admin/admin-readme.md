@@ -10,6 +10,8 @@ Nothing in `admin/` is included in the generated template output.
 - `smoke_test_template.py` — Renders the compiled template into a temp directory and
   verifies install/build/test/check/bootstrap behavior.
 - `admin-readme.md` — This file.
+- `releasing.md` — Template-maintainer release process and Copier tag behavior.
+- `releases/` — Release notes for template tags.
 - `updating.md` — Guide for maintaining the template.
 - `docs/` — Project specs and planning documents.
 
