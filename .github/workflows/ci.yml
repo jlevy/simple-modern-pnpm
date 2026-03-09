@@ -13,11 +13,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4.2.0
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6.3.0
         with:
           node-version: 24
           cache: pnpm
@@ -35,7 +35,7 @@ jobs:
       - run: pnpm test:coverage
 
       - name: Coverage Report
-        uses: davelosert/vitest-coverage-report-action@v2
+        uses: davelosert/vitest-coverage-report-action@v2.9.3
         if: always()
         with:
           working-directory: packages/placeholder-package
@@ -47,9 +47,9 @@ jobs:
   template-sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6.2.0
         with:
           python-version: '3.12'
 
@@ -67,15 +67,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: template-sync
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6.2.0
         with:
           python-version: '3.12'
 
-      - uses: pnpm/action-setup@v4
+      - uses: astral-sh/setup-uv@v7.3.1
 
-      - uses: actions/setup-node@v6
+      - uses: pnpm/action-setup@v4.2.0
+
+      - uses: actions/setup-node@v6.3.0
         with:
           node-version: 24
           cache: pnpm
